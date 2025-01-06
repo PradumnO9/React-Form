@@ -1,16 +1,30 @@
 import { useEffect, useState } from "react";
 import { FaRegEye } from "react-icons/fa";
 import { FaRegEyeSlash } from "react-icons/fa";
+import useValidation from "../constants/useValidation";
 
 const imgUrl =
   "https://static.vecteezy.com/system/resources/previews/003/689/228/non_2x/online-registration-or-sign-up-login-for-account-on-smartphone-app-user-interface-with-secure-password-mobile-application-for-ui-web-banner-access-cartoon-people-illustration-vector.jpg";
 
 const Login = () => {
+  const { validateEmail, validatePassword } = useValidation();
+
   const [formData, setFormData] = useState({
     email: "",
     password: "",
   });
   const [eyeToggle, setEyeToggle] = useState(false);
+  const [formErrors, setFromErrors] = useState({
+    email_error: "",
+    password_error: "",
+  });
+  const [MESSAGE] = useState({
+    EMAILID_ERROR: "Please enter a valid email",
+    PASSWORD_ERROR: "Please enter a valid Password",
+    MANDATORY: "Please fill all the fields",
+  });
+  const [mandatory, setMandatory] = useState(false);
+  const [valid, setValid] = useState(false);
 
   const handelChange = (e) => {
     const { name, value } = e.target;
@@ -18,6 +32,35 @@ const Login = () => {
       ...formData,
       [name]: value,
     });
+    validateFields(name, value);
+  };
+
+  const validateFields = (name, value) => {
+    switch (name) {
+      case "email":
+        if (!validateEmail(value)) {
+          setFromErrors({ email_error: MESSAGE.EMAILID_ERROR });
+          setValid(true);
+        } else {
+          setFromErrors({ email_error: "" });
+          setValid(false);
+        }
+
+        break;
+
+      case "password":
+        if (!validatePassword(value)) {
+          setFromErrors({ password_error: MESSAGE.PASSWORD_ERROR });
+          setValid(true);
+        } else {
+          setFromErrors({ password_error: "" });
+          setValid(false);
+        }
+        break;
+
+      default:
+        break;
+    }
   };
 
   useEffect(() => {
@@ -33,6 +76,12 @@ const Login = () => {
 
   const handleSubmitButton = (e) => {
     e.preventDefault();
+    if(!formData.email || !formData.password) {
+      setMandatory(MESSAGE.MANDATORY);
+      setValid(true);
+    } else {
+      console.log(formData);
+    }
   };
 
   const handelEyeToggle = () => {
@@ -53,6 +102,11 @@ const Login = () => {
             placeholder="Email"
             onChange={handelChange}
           />
+          <div className="mt-1">
+            {formErrors.email_error && (
+              <span className="text-red-500">{formErrors.email_error}</span>
+            )}
+          </div>
           <div className="flex justify-end items-center relative">
             <input
               className="w-full p-2 border rounded-sm"
@@ -76,12 +130,28 @@ const Login = () => {
               />
             )}
           </div>
-          <button
-            className="w-full bg-blue-400 hover:opacity-85 rounded-lg p-2 my-2 text-lg text-white"
-            onClick={handleSubmitButton}
-          >
-            Submit
-          </button>
+          <div className="mt-1">
+            {formErrors.password_error && (
+              <span className="text-red-500">{formErrors.password_error}</span>
+            )}
+          </div>
+          <div className="mt-2">{mandatory && <span className="text-red-500">{mandatory}</span>}</div>
+          {valid ? (
+            <button
+              disabled
+              className="w-full bg-blue-400 hover:opacity-85 rounded-lg p-2 my-2 text-lg text-white"
+              onClick={handleSubmitButton}
+            >
+              Submit
+            </button>
+          ) : (
+            <button
+              className="w-full bg-blue-400 hover:opacity-85 rounded-lg p-2 my-2 text-lg text-white"
+              onClick={handleSubmitButton}
+            >
+              Submit
+            </button>
+          )}
         </form>
       </div>
       <div className="w-[60%]">
