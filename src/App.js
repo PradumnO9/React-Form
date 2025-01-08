@@ -1,8 +1,9 @@
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
-import Header from './components/Header';
+import Header from "./components/Header";
 import Login from "./components/Login";
+import Home from "./components/Home";
 import Register from "./components/Register";
-import './App.css';
+import "./App.css";
 
 const appRouter = createBrowserRouter([
   {
@@ -10,16 +11,20 @@ const appRouter = createBrowserRouter([
     element: <Header />,
     children: [
       {
+        path: "/",
+        element: <Home />,
+      },
+      {
         path: "/login",
-        element: <Login />
+        element: <Login />,
       },
       {
         path: "/register",
-        element: <Register />
-      }
-    ]
-  }
-])
+        element: <Register />,
+      },
+    ],
+  },
+]);
 
 function App() {
   return (

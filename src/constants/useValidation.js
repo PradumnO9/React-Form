@@ -20,7 +20,23 @@ const useValidation = () => {
     }
   };
 
-  return { validateEmail, validatePassword };
+  const validateAddress = (address) => {
+    if (address.length === 0) {
+      return false;
+    } else {
+      return true;
+    }
+  };
+
+  const validatePinCode = (pinCode) => {
+    if (pinCode.length !== 6) {
+      return false;
+    } else {
+      return true;
+    }
+  };
+
+  return { validateEmail, validatePassword, validateAddress, validatePinCode };
 };
 
 export default useValidation;

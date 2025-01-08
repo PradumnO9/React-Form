@@ -9,11 +9,13 @@ const imgUrl =
 const Login = () => {
   const { validateEmail, validatePassword } = useValidation();
 
+  const [eyeToggle, setEyeToggle] = useState(false);
+  const [mandatory, setMandatory] = useState(false);
+  const [valid, setValid] = useState(false);
   const [formData, setFormData] = useState({
     email: "",
     password: "",
   });
-  const [eyeToggle, setEyeToggle] = useState(false);
   const [formErrors, setFromErrors] = useState({
     email_error: "",
     password_error: "",
@@ -23,8 +25,6 @@ const Login = () => {
     PASSWORD_ERROR: "Please enter a valid Password",
     MANDATORY: "Please fill all the fields",
   });
-  const [mandatory, setMandatory] = useState(false);
-  const [valid, setValid] = useState(false);
 
   const handelChange = (e) => {
     const { name, value } = e.target;
@@ -64,14 +64,14 @@ const Login = () => {
   };
 
   useEffect(() => {
-    const userData = localStorage.getItem("user");
+    const userData = localStorage.getItem("login");
     if (userData) {
       setFormData(JSON.parse(userData));
     }
   }, []);
 
   useEffect(() => {
-    localStorage.setItem("user", JSON.stringify(formData));
+    localStorage.setItem("login", JSON.stringify(formData));
   }, [formData]);
 
   const handleSubmitButton = (e) => {
@@ -90,9 +90,9 @@ const Login = () => {
   };
 
   return (
-    <div className="flex mt-28 border-2 w-1/2 h-96 mx-auto left-0 right-0 rounded-lg shadow-md">
-      <div className="w-[45%]">
-        <form className="py-1 px-4 mt-[70px] ml-6">
+    <div className="md:flex mt-28 border-2 w-[95%] md:w-1/2 h-[300px] md:h-96 mx-auto left-0 right-0 rounded-lg shadow-md">
+      <div className="w-full md:w-[45%]">
+        <form className="py-1 px-4 mt-[30px] md:mt-[70px] md:ml-6">
           <h1 className="text-3xl font-bold p-2 text-center mb-2">Login</h1>
           <input
             className="w-full p-2 mb-1 border rounded-sm"
@@ -139,14 +139,14 @@ const Login = () => {
           {valid ? (
             <button
               disabled
-              className="w-full bg-blue-400 hover:opacity-85 rounded-lg p-2 my-2 text-lg text-white"
+              className="w-full bg-blue-400 rounded-lg p-2 my-2 text-lg text-white"
               onClick={handleSubmitButton}
             >
               Submit
             </button>
           ) : (
             <button
-              className="w-full bg-blue-400 hover:opacity-85 rounded-lg p-2 my-2 text-lg text-white"
+              className="w-full bg-blue-400 hover:bg-opacity-85 rounded-lg p-2 my-2 text-lg text-white"
               onClick={handleSubmitButton}
             >
               Submit
@@ -154,7 +154,7 @@ const Login = () => {
           )}
         </form>
       </div>
-      <div className="w-[60%]">
+      <div className="hidden md:w-[60%] md:block">
         <img className="h-full" src={imgUrl} alt="Login" />
       </div>
     </div>
