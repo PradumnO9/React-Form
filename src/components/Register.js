@@ -7,32 +7,42 @@ const imgUrl =
   "https://img.freepik.com/free-vector/mobile-login-concept-illustration_114360-135.jpg?semt=ais_hybrid";
 
 const Register = () => {
-  const { validateEmail, validatePassword, validateAddress, validatePinCode } = useValidation();
+  const {
+    validateEmail,
+    validatePassword,
+    validateAddress,
+    validatePinCode,
+    validateName,
+  } = useValidation();
 
   const [eyeToggle, setEyeToggle] = useState(false);
   const [valid, setValid] = useState(false);
+  const [nextState, setNextState] = useState(false);
   const [registerData, setRegisterData] = useState({
+    name: "",
     email: "",
     password: "",
     confirm_password: "",
     address: "",
     city: "",
-    pin_code: ""
+    pin_code: "",
   });
   const [formErrors, setFromErrors] = useState({
+    name_error: "",
     email_error: "",
     password_error: "",
     confirm_password_error: "",
     address_error: "",
-    pin_code_error: ""
+    pin_code_error: "",
   });
   const [MESSAGE] = useState({
+    NAME_ERROR: "Name should have at least 3 characters",
     EMAILID_ERROR: "Please enter a valid email",
     PASSWORD_ERROR: "Please enter a valid Password",
     CONFIRM_PASSWORD_ERROR: "Password didn't match",
     MANDATORY: "Please fill all the fields",
-    ADDRESS_ERROR: "Address cann't be empty",
-    PIN_CODE_ERROR: "Pin Code must be 6 digit"
+    ADDRESS_ERROR: "Address/City cann't be empty",
+    PIN_CODE_ERROR: "Pin Code must be 6 digit",
   });
 
   const handelChange = (e) => {
@@ -46,6 +56,17 @@ const Register = () => {
 
   const validateFields = (name, value) => {
     switch (name) {
+      case "name":
+        if (!validateName(value)) {
+          setFromErrors({ name_error: MESSAGE.NAME_ERROR });
+          setValid(true);
+        } else {
+          setFromErrors({ name_error: "" });
+          setValid(false);
+        }
+
+        break;
+
       case "email":
         if (!validateEmail(value)) {
           setFromErrors({ email_error: MESSAGE.EMAILID_ERROR });
@@ -79,7 +100,8 @@ const Register = () => {
         }
         break;
 
-        case "address":
+      case "address":
+      case "city":
         if (!validateAddress(value)) {
           setFromErrors({
             address_error: MESSAGE.ADDRESS_ERROR,
@@ -91,7 +113,7 @@ const Register = () => {
         }
         break;
 
-        case "pin_code":
+      case "pin_code":
         if (!validatePinCode(value)) {
           setFromErrors({
             pin_code_error: MESSAGE.PIN_CODE_ERROR,
@@ -117,25 +139,50 @@ const Register = () => {
 
   useEffect(() => {
     localStorage.setItem("register", JSON.stringify(registerData));
-  }, [registerData]);
-
-  const [nextState, setNextState] = useState(false);
-  const handleNext = (e) => {
-    setNextState(true);
-  };
+  }, [registerData, nextState]);
 
   const handelEyeToggle = () => {
     setEyeToggle(!eyeToggle);
   };
 
+  const handleNextButton = (e) => {
+    e.preventDefault();
+    setNextState(true);
+  }
+
   return (
-    <div className="md:flex mt-28 border-2 w-[95%] md:w-1/2 h-[300px] md:h-96 mx-auto left-0 right-0 rounded-lg shadow-md">
+    <div className="md:flex mt-28 border-2 w-[95%] md:w-1/2 h-[350px] md:h-[450px] mx-auto left-0 right-0 rounded-lg shadow-md">
       <div className="w-full md:w-[45%]">
-        {!nextState ? (
+        {nextState ? (
+          <RegisterNext
+            setNextState={setNextState}
+            valid={valid}
+            setValid={setValid}
+            MESSAGE={MESSAGE}
+            registerData={registerData}
+            handelChange={handelChange}
+            formErrors={formErrors}
+          />
+        ) : (
           <form className="py-1 px-4 mt-[30px] md:mt-[70px] md:ml-6">
             <h1 className="text-3xl font-bold p-2 text-center mb-2">
               Register
             </h1>
+            <div>
+              <input
+                className="w-full p-2 mb-1 border rounded-sm"
+                type="text"
+                name="name"
+                value={registerData?.name}
+                placeholder="Your Name"
+                onChange={handelChange}
+              />
+              <div className="mt-1">
+                {formErrors.name_error && (
+                  <span className="text-red-500">{formErrors.name_error}</span>
+                )}
+              </div>
+            </div>
             <div>
               <input
                 className="w-full p-2 mb-1 border rounded-sm"
@@ -201,21 +248,14 @@ const Register = () => {
               </div>
             </div>
             <div className="flex justify-end">
-              <button className="text-blue-500 underline" onClick={handleNext}>
+              <button
+                className="text-blue-500 underline"
+                onClick={handleNextButton}
+              >
                 next -{">"}
               </button>
             </div>
           </form>
-        ) : (
-          <RegisterNext
-            setNextState={setNextState}
-            valid={valid}
-            setValid={setValid}
-            MESSAGE={MESSAGE}
-            registerData={registerData}
-            handelChange={handelChange}
-            formErrors={formErrors}
-          />
         )}
       </div>
       <div className="hidden md:w-[60%] md:block">

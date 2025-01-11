@@ -4,6 +4,14 @@ const useValidation = () => {
   let password_regx =
     /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[^a-zA-Z0-9])(?!.*\s).{6,15}$/;
 
+  const validateName = (name) => {
+    if (name.length >= 3) {
+      return true;
+    } else {
+      return false;
+    }
+  };
+
   const validateEmail = (email) => {
     if (!email_regx.test(email)) {
       return false;
@@ -36,7 +44,13 @@ const useValidation = () => {
     }
   };
 
-  return { validateEmail, validatePassword, validateAddress, validatePinCode };
+  return {
+    validateEmail,
+    validatePassword,
+    validateAddress,
+    validatePinCode,
+    validateName,
+  };
 };
 
 export default useValidation;

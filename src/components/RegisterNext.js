@@ -13,7 +13,13 @@ const RegisterNext = ({
 
   const handleSubmitButton = (e) => {
     e.preventDefault();
-    if (!registerData.email || !registerData.password) {
+    if (
+      !registerData.email ||
+      !registerData.password ||
+      !registerData.name ||
+      !registerData.address ||
+      !registerData.pin_code
+    ) {
       setMandatory(MESSAGE.MANDATORY);
       setValid(true);
     } else {
@@ -33,13 +39,6 @@ const RegisterNext = ({
           placeholder="Address"
           onChange={handelChange}
         />
-        <div className="mt-1">
-          {formErrors.address_error && (
-            <span className="text-red-500">{formErrors.address_error}</span>
-          )}
-        </div>
-      </div>
-      <div>
         <input
           className="w-full p-2 mb-1 border rounded-sm"
           type="text"
@@ -48,6 +47,11 @@ const RegisterNext = ({
           placeholder="City Name"
           onChange={handelChange}
         />
+        <div className="mt-1">
+          {formErrors.address_error && (
+            <span className="text-red-500">{formErrors.address_error}</span>
+          )}
+        </div>
       </div>
       <div>
         <input

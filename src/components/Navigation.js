@@ -6,9 +6,9 @@ const Navigation = () => {
 
   return (
     <div className="flex justify-between bg-slate-100 shadow-md">
-      <h1 className="text-center text-3xl font-bold underline m-2">
+      <Link className="text-center text-3xl font-bold underline m-2" to="/">
         React Forms
-      </h1>
+      </Link>
       <div className="flex justify-center items-center text-white">
         <Link className={"bg-green-500  " + buttonCSS} to="/login">
           Login
