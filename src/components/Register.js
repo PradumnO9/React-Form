@@ -18,6 +18,7 @@ const Register = () => {
   const [eyeToggle, setEyeToggle] = useState(false);
   const [valid, setValid] = useState(false);
   const [nextState, setNextState] = useState(false);
+  const [genderValue, setGenderValue] = useState("male")
   const [registerData, setRegisterData] = useState({
     name: "",
     email: "",
@@ -135,23 +136,20 @@ const Register = () => {
     if (userData) {
       setRegisterData(JSON.parse(userData));
     }
+    setGenderValue(localStorage.getItem("gender"));
   }, []);
 
   useEffect(() => {
     localStorage.setItem("register", JSON.stringify(registerData));
-  }, [registerData, nextState]);
+    localStorage.setItem("gender", genderValue);
+  }, [registerData, genderValue]);
 
   const handelEyeToggle = () => {
     setEyeToggle(!eyeToggle);
   };
 
-  const handleNextButton = (e) => {
-    e.preventDefault();
-    setNextState(true);
-  }
-
   return (
-    <div className="md:flex mt-28 border-2 w-[95%] md:w-1/2 h-[350px] md:h-[450px] mx-auto left-0 right-0 rounded-lg shadow-md">
+    <div className="md:flex mt-28 border-2 w-[95%] md:w-1/2 h-[360px] md:h-[450px] mx-auto left-0 right-0 rounded-lg shadow-md">
       <div className="w-full md:w-[45%]">
         {nextState ? (
           <RegisterNext
@@ -162,6 +160,7 @@ const Register = () => {
             registerData={registerData}
             handelChange={handelChange}
             formErrors={formErrors}
+            genderValue={genderValue}
           />
         ) : (
           <form className="py-1 px-4 mt-[30px] md:mt-[70px] md:ml-6">
@@ -247,10 +246,36 @@ const Register = () => {
                 )}
               </div>
             </div>
+            <div className="flex justify-between mt-1">
+              <div>
+                <input
+                  className="mr-1 w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500"
+                  id="Male"
+                  name="gender"
+                  value="male"
+                  type="radio"
+                  checked={genderValue === "male"}
+                  onChange={(e) => setGenderValue(e.target.value)}
+                />
+                <label htmlFor="Male">Male</label>
+              </div>
+              <div>
+                <input
+                  className="mr-1 w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500"
+                  id="Female"
+                  name="gender"
+                  value="female"
+                  type="radio"
+                  checked={genderValue === "female"}
+                  onChange={(e) => setGenderValue(e.target.value)}
+                />
+                <label htmlFor="Female">Female</label>
+              </div>
+            </div>
             <div className="flex justify-end">
               <button
                 className="text-blue-500 underline"
-                onClick={handleNextButton}
+                onClick={() => {setNextState(true)}}
               >
                 next -{">"}
               </button>

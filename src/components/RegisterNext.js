@@ -8,6 +8,7 @@ const RegisterNext = ({
   MESSAGE,
   handelChange,
   formErrors,
+  genderValue
 }) => {
   const [mandatory, setMandatory] = useState(false);
 
@@ -23,7 +24,7 @@ const RegisterNext = ({
       setMandatory(MESSAGE.MANDATORY);
       setValid(true);
     } else {
-      console.log(registerData);
+      console.log(registerData, genderValue);
     }
   };
 

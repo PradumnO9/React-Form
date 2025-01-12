@@ -9,6 +9,7 @@ const Home = () => {
         <li className='text-xl p-1'>Password eye toggle</li>
         <li className='text-xl p-1'>Error Handling for input fields</li>
         <li className='text-xl p-1'>Register form have next and previous Functionality</li>
+        <li className='text-xl p-1'>Radio Button to handle gender</li>
       </ul>
     </div>
   )
