@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
-import useValidation from "../constants/useValidation";
+import useValidation from "../utils/useValidation";
 import { FaRegEye, FaRegEyeSlash } from "react-icons/fa";
+import { MESSAGE } from "../utils/constants";
 import RegisterNext from "./RegisterNext";
 
 const imgUrl =
@@ -18,13 +19,14 @@ const Register = () => {
   const [eyeToggle, setEyeToggle] = useState(false);
   const [valid, setValid] = useState(false);
   const [nextState, setNextState] = useState(false);
-  const [genderValue, setGenderValue] = useState("male")
+  const [genderValue, setGenderValue] = useState("male");
   const [registerData, setRegisterData] = useState({
     name: "",
     email: "",
     password: "",
     confirm_password: "",
     address: "",
+    state: "",
     city: "",
     pin_code: "",
   });
@@ -35,15 +37,6 @@ const Register = () => {
     confirm_password_error: "",
     address_error: "",
     pin_code_error: "",
-  });
-  const [MESSAGE] = useState({
-    NAME_ERROR: "Name should have at least 3 characters",
-    EMAILID_ERROR: "Please enter a valid email",
-    PASSWORD_ERROR: "Please enter a valid Password",
-    CONFIRM_PASSWORD_ERROR: "Password didn't match",
-    MANDATORY: "Please fill all the fields",
-    ADDRESS_ERROR: "Address/City cann't be empty",
-    PIN_CODE_ERROR: "Pin Code must be 6 digit",
   });
 
   const handelChange = (e) => {
@@ -163,124 +156,132 @@ const Register = () => {
             genderValue={genderValue}
           />
         ) : (
-          <form className="py-1 px-4 mt-[30px] md:mt-[70px] md:ml-6">
-            <h1 className="text-3xl font-bold p-2 text-center mb-2">
-              Register
-            </h1>
-            <div>
-              <input
-                className="w-full p-2 mb-1 border rounded-sm"
-                type="text"
-                name="name"
-                value={registerData?.name}
-                placeholder="Your Name"
-                onChange={handelChange}
-              />
-              <div className="mt-1">
-                {formErrors.name_error && (
-                  <span className="text-red-500">{formErrors.name_error}</span>
-                )}
-              </div>
-            </div>
-            <div>
-              <input
-                className="w-full p-2 mb-1 border rounded-sm"
-                type="text"
-                name="email"
-                value={registerData?.email}
-                placeholder="Email"
-                onChange={handelChange}
-              />
-              <div className="mt-1">
-                {formErrors.email_error && (
-                  <span className="text-red-500">{formErrors.email_error}</span>
-                )}
-              </div>
-            </div>
-            <div>
-              <div className="flex justify-end items-center relative mb-1">
+          <div>
+            <form className="py-1 px-4 mt-[30px] md:mt-[70px] md:ml-6">
+              <h1 className="text-3xl font-bold p-2 text-center mb-2">
+                Register
+              </h1>
+              <div>
                 <input
-                  className="w-full p-2 border rounded-sm"
-                  type={eyeToggle ? "text" : "password"}
-                  name="password"
-                  value={registerData?.password}
-                  placeholder="Password"
+                  className="w-full p-2 mb-1 border rounded-sm"
+                  type="text"
+                  name="name"
+                  value={registerData?.name}
+                  placeholder="Your Name"
                   onChange={handelChange}
                 />
-                {eyeToggle ? (
-                  <FaRegEye
-                    className="absolute mr-2 cursor-pointer"
-                    size={20}
-                    onClick={handelEyeToggle}
-                  />
-                ) : (
-                  <FaRegEyeSlash
-                    className="absolute mr-2 cursor-pointer"
-                    size={20}
-                    onClick={handelEyeToggle}
-                  />
-                )}
-              </div>
-              <div className="mt-1">
-                {formErrors.password_error && (
-                  <span className="text-red-500">
-                    {formErrors.password_error}
-                  </span>
-                )}
-              </div>
-            </div>
-            <div>
-              <input
-                className="w-full p-2 border rounded-sm"
-                type="password"
-                name="confirm_password"
-                value={registerData?.confirm_password}
-                placeholder="Confirm Password"
-                onChange={handelChange}
-              />
-              <div className="mt-1">
-                {formErrors.confirm_password_error && (
-                  <span className="text-red-500">
-                    {formErrors.confirm_password_error}
-                  </span>
-                )}
-              </div>
-            </div>
-            <div className="flex justify-between mt-1">
-              <div>
-                <input
-                  className="mr-1 w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500"
-                  id="Male"
-                  name="gender"
-                  value="male"
-                  type="radio"
-                  checked={genderValue === "male"}
-                  onChange={(e) => setGenderValue(e.target.value)}
-                />
-                <label htmlFor="Male">Male</label>
+                <div className="mt-1">
+                  {formErrors.name_error && (
+                    <span className="text-red-500">
+                      {formErrors.name_error}
+                    </span>
+                  )}
+                </div>
               </div>
               <div>
                 <input
-                  className="mr-1 w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500"
-                  id="Female"
-                  name="gender"
-                  value="female"
-                  type="radio"
-                  checked={genderValue === "female"}
-                  onChange={(e) => setGenderValue(e.target.value)}
+                  className="w-full p-2 mb-1 border rounded-sm"
+                  type="text"
+                  name="email"
+                  value={registerData?.email}
+                  placeholder="Email"
+                  onChange={handelChange}
                 />
-                <label htmlFor="Female">Female</label>
+                <div className="mt-1">
+                  {formErrors.email_error && (
+                    <span className="text-red-500">
+                      {formErrors.email_error}
+                    </span>
+                  )}
+                </div>
               </div>
-            </div>
+              <div>
+                <div className="flex justify-end items-center relative mb-1">
+                  <input
+                    className="w-full p-2 border rounded-sm"
+                    type={eyeToggle ? "text" : "password"}
+                    name="password"
+                    value={registerData?.password}
+                    placeholder="Password"
+                    onChange={handelChange}
+                  />
+                  {eyeToggle ? (
+                    <FaRegEye
+                      className="absolute mr-2 cursor-pointer"
+                      size={20}
+                      onClick={handelEyeToggle}
+                    />
+                  ) : (
+                    <FaRegEyeSlash
+                      className="absolute mr-2 cursor-pointer"
+                      size={20}
+                      onClick={handelEyeToggle}
+                    />
+                  )}
+                </div>
+                <div className="mt-1">
+                  {formErrors.password_error && (
+                    <span className="text-red-500">
+                      {formErrors.password_error}
+                    </span>
+                  )}
+                </div>
+              </div>
+              <div>
+                <input
+                  className="w-full p-2 border rounded-sm"
+                  type="password"
+                  name="confirm_password"
+                  value={registerData?.confirm_password}
+                  placeholder="Confirm Password"
+                  onChange={handelChange}
+                />
+                <div className="mt-1">
+                  {formErrors.confirm_password_error && (
+                    <span className="text-red-500">
+                      {formErrors.confirm_password_error}
+                    </span>
+                  )}
+                </div>
+              </div>
+              <div className="flex justify-between mt-3">
+                <div>
+                  <input
+                    className="mr-1 w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500"
+                    id="Male"
+                    name="gender"
+                    value="male"
+                    type="radio"
+                    checked={genderValue === "male"}
+                    onChange={(e) => setGenderValue(e.target.value)}
+                  />
+                  <label htmlFor="Male">Male</label>
+                </div>
+                <div>
+                  <input
+                    className="mr-1 w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500"
+                    id="Female"
+                    name="gender"
+                    value="female"
+                    type="radio"
+                    checked={genderValue === "female"}
+                    onChange={(e) => setGenderValue(e.target.value)}
+                  />
+                  <label htmlFor="Female">Female</label>
+                </div>
+              </div>
+            </form>
             <div className="flex justify-end">
               <button
                 className="text-blue-500 underline"
-                onClick={() => {setNextState(true)}}
+                onClick={() => {
+                  setNextState(true);
+                }}
               >
                 next -{">"}
               </button>
             </div>
-          </form>
+          </div>
         )}
       </div>
       <div className="hidden md:w-[60%] md:block">

@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { STATES } from "../utils/constants";
 
 const RegisterNext = ({
   setNextState,
@@ -8,7 +9,7 @@ const RegisterNext = ({
   MESSAGE,
   handelChange,
   formErrors,
-  genderValue
+  genderValue,
 }) => {
   const [mandatory, setMandatory] = useState(false);
 
@@ -24,7 +25,7 @@ const RegisterNext = ({
       setMandatory(MESSAGE.MANDATORY);
       setValid(true);
     } else {
-      console.log(registerData, genderValue);
+      console.log(registerData, "gender:", genderValue);
     }
   };
 
@@ -40,6 +41,17 @@ const RegisterNext = ({
           placeholder="Address"
           onChange={handelChange}
         />
+        <select
+          className="w-full p-2 mb-1 border rounded-sm"
+          name="state"
+          value={registerData?.state}
+          onChange={handelChange}
+        >
+          <option>Choose your state...</option>
+          {STATES.map((state, index) => {
+            return <option key={index}>{state}</option>;
+          })}
+        </select>
         <input
           className="w-full p-2 mb-1 border rounded-sm"
           type="text"
