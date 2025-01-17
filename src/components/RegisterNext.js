@@ -8,8 +8,7 @@ const RegisterNext = ({
   registerData,
   MESSAGE,
   handelChange,
-  formErrors,
-  genderValue,
+  formErrors
 }) => {
   const [mandatory, setMandatory] = useState(false);
 
@@ -20,12 +19,15 @@ const RegisterNext = ({
       !registerData.password ||
       !registerData.name ||
       !registerData.address ||
-      !registerData.pin_code
+      !registerData.pin_code ||
+      !registerData.state ||
+      !registerData.city || 
+      !registerData.gender
     ) {
       setMandatory(MESSAGE.MANDATORY);
       setValid(true);
     } else {
-      console.log(registerData, "gender:", genderValue);
+      console.log(registerData);
     }
   };
 
@@ -41,17 +43,6 @@ const RegisterNext = ({
           placeholder="Address"
           onChange={handelChange}
         />
-        <select
-          className="w-full p-2 mb-1 border rounded-sm"
-          name="state"
-          value={registerData?.state}
-          onChange={handelChange}
-        >
-          <option>Choose your state...</option>
-          {STATES.map((state, index) => {
-            return <option key={index}>{state}</option>;
-          })}
-        </select>
         <input
           className="w-full p-2 mb-1 border rounded-sm"
           type="text"
@@ -63,6 +54,24 @@ const RegisterNext = ({
         <div className="mt-1">
           {formErrors.address_error && (
             <span className="text-red-500">{formErrors.address_error}</span>
+          )}
+        </div>
+      </div>
+      <div>
+        <select
+          className="w-full p-2 mb-1 border rounded-sm"
+          name="state"
+          value={registerData?.state}
+          onChange={handelChange}
+        >
+          <option>Choose your state...</option>
+          {STATES.map((state, index) => {
+            return <option key={index}>{state}</option>;
+          })}
+        </select>
+        <div className="mt-1">
+          {formErrors.state_name_error && (
+            <span className="text-red-500">{formErrors.state_name_error}</span>
           )}
         </div>
       </div>

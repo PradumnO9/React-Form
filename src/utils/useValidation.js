@@ -44,12 +44,21 @@ const useValidation = () => {
     }
   };
 
+  const validateState = (state) => {
+    if (state === "Choose your state...") {
+      return false;
+    } else {
+      return true;
+    }
+  }
+
   return {
     validateEmail,
     validatePassword,
     validateAddress,
     validatePinCode,
     validateName,
+    validateState
   };
 };
 

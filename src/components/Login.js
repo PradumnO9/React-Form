@@ -1,10 +1,8 @@
 import { useEffect, useState } from "react";
 import { FaRegEye } from "react-icons/fa";
 import { FaRegEyeSlash } from "react-icons/fa";
-import useValidation from "../constants/useValidation";
-
-const imgUrl =
-  "https://static.vecteezy.com/system/resources/previews/003/689/228/non_2x/online-registration-or-sign-up-login-for-account-on-smartphone-app-user-interface-with-secure-password-mobile-application-for-ui-web-banner-access-cartoon-people-illustration-vector.jpg";
+import useValidation from "../utils/useValidation";
+import { LOGIN_IMG_URL } from "../utils/constants";
 
 const Login = () => {
   const { validateEmail, validatePassword } = useValidation();
@@ -155,7 +153,7 @@ const Login = () => {
         </form>
       </div>
       <div className="hidden md:w-[60%] md:block">
-        <img className="h-full" src={imgUrl} alt="Login" />
+        <img className="h-full" src={LOGIN_IMG_URL} alt="Login" />
       </div>
     </div>
   );

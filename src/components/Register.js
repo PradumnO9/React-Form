@@ -3,9 +3,7 @@ import useValidation from "../utils/useValidation";
 import { FaRegEye, FaRegEyeSlash } from "react-icons/fa";
 import { MESSAGE } from "../utils/constants";
 import RegisterNext from "./RegisterNext";
-
-const imgUrl =
-  "https://img.freepik.com/free-vector/mobile-login-concept-illustration_114360-135.jpg?semt=ais_hybrid";
+import { REGISTER_IMG_URL } from "../utils/constants";
 
 const Register = () => {
   const {
@@ -14,12 +12,12 @@ const Register = () => {
     validateAddress,
     validatePinCode,
     validateName,
+    validateState,
   } = useValidation();
 
   const [eyeToggle, setEyeToggle] = useState(false);
   const [valid, setValid] = useState(false);
   const [nextState, setNextState] = useState(false);
-  const [genderValue, setGenderValue] = useState("male");
   const [registerData, setRegisterData] = useState({
     name: "",
     email: "",
@@ -29,6 +27,7 @@ const Register = () => {
     state: "",
     city: "",
     pin_code: "",
+    gender: ""
   });
   const [formErrors, setFromErrors] = useState({
     name_error: "",
@@ -37,6 +36,7 @@ const Register = () => {
     confirm_password_error: "",
     address_error: "",
     pin_code_error: "",
+    state_name_error: "",
   });
 
   const handelChange = (e) => {
@@ -119,6 +119,18 @@ const Register = () => {
         }
         break;
 
+      case "state":
+        if (!validateState(value)) {
+          setFromErrors({
+            state_name_error: MESSAGE.STATE_NAME_ERROR,
+          });
+          setValid(true);
+        } else {
+          setFromErrors({ state_name_error: "" });
+          setValid(false);
+        }
+        break;
+
       default:
         break;
     }
@@ -129,20 +141,18 @@ const Register = () => {
     if (userData) {
       setRegisterData(JSON.parse(userData));
     }
-    setGenderValue(localStorage.getItem("gender"));
   }, []);
 
   useEffect(() => {
     localStorage.setItem("register", JSON.stringify(registerData));
-    localStorage.setItem("gender", genderValue);
-  }, [registerData, genderValue]);
+  }, [registerData]);
 
   const handelEyeToggle = () => {
     setEyeToggle(!eyeToggle);
   };
 
   return (
-    <div className="md:flex mt-28 border-2 w-[95%] md:w-1/2 h-[360px] md:h-[450px] mx-auto left-0 right-0 rounded-lg shadow-md">
+    <div className="md:flex mt-28 border-2 w-[95%] md:w-1/2 h-[360px] md:h-[470px] mx-auto left-0 right-0 rounded-lg shadow-md">
       <div className="w-full md:w-[45%]">
         {nextState ? (
           <RegisterNext
@@ -153,7 +163,6 @@ const Register = () => {
             registerData={registerData}
             handelChange={handelChange}
             formErrors={formErrors}
-            genderValue={genderValue}
           />
         ) : (
           <div>
@@ -252,8 +261,8 @@ const Register = () => {
                     name="gender"
                     value="male"
                     type="radio"
-                    checked={genderValue === "male"}
-                    onChange={(e) => setGenderValue(e.target.value)}
+                    checked={registerData.gender === "male"}
+                    onChange={handelChange}
                   />
                   <label htmlFor="Male">Male</label>
                 </div>
@@ -264,8 +273,8 @@ const Register = () => {
                     name="gender"
                     value="female"
                     type="radio"
-                    checked={genderValue === "female"}
-                    onChange={(e) => setGenderValue(e.target.value)}
+                    checked={registerData.gender === "female"}
+                    onChange={handelChange}
                   />
                   <label htmlFor="Female">Female</label>
                 </div>
@@ -285,7 +294,7 @@ const Register = () => {
         )}
       </div>
       <div className="hidden md:w-[60%] md:block">
-        <img className="h-full" src={imgUrl} alt="Login" />
+        <img className="h-full" src={REGISTER_IMG_URL} alt="Login" />
       </div>
     </div>
   );
