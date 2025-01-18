@@ -13,3 +13,6 @@
     - validatePassword
     - validateAddress
     - validatePinCode
+
+# Login Page
+![Alt text](/react-form/src/Images/login_page.png?raw=true "Optional Title")
