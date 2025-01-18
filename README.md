@@ -15,4 +15,4 @@
     - validatePinCode
 
 # Login Page
-![Alt text](/react-form/src/Images/login_page.png?raw=true "Optional Title")
+![Alt text](/main/src/Images/login_page.png?raw=true "Optional Title")
